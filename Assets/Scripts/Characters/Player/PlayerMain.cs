@@ -1,8 +1,7 @@
 using JetBrains.Annotations;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,16 +29,23 @@ public class PlayerMain : MonoBehaviour, ICharacter
   [field: SerializeField]
   private Transform target;
 
-  private Coroutine attack;
+
+  private GameObject weaponPrefab;
+  private float attackResetTimer = 0;
+  private bool isAttacking = false;
+
+  public delegate void Attack(Weapon weapon);
+  private Attack attack;
 
 	private void Awake() {
 		rb = GetComponent<Rigidbody2D>();
 		sp = GetComponent<SpriteRenderer>();
 	}
 
-	private void FixedUpdate() {
+	private void Update() {
     HandleMovement();
     HandleHand();
+    HandleAttack();
   }
 
   private void HandleMovement() {
@@ -75,21 +81,60 @@ public class PlayerMain : MonoBehaviour, ICharacter
         Quaternion targetRotation = Quaternion.LookRotation(hand.transform.forward, rb.velocity.normalized);
         rotation = Quaternion.RotateTowards(hand.transform.rotation, targetRotation, 15f);  
       }
-      
       hand.rotation = rotation;
     }
   }
 
+  private void HandleAttack()
+  {
+    attackResetTimer += Time.deltaTime;
+    if (isAttacking && attackResetTimer >= weapon.attackRate)
+    {
+      attack?.Invoke(weapon);
+      attackResetTimer = 0;
+    }
+  }
+
   #region setters
-  public void SetWeapon(Weapon weapon){
+  public void SetWeapon(Weapon weapon)
+  {
     weapon.PrintWeaponInfo();
     this.weapon = weapon;
-    
-    // 'ShowWeapon()'
+
+    SetAttack(weapon);
+
+    ShowWeapon();
+  }
+
+  private void SetAttack(Weapon weapon)
+  {
+    attack = null;
+
+    switch (weapon.weaponType)
+    {
+      case WeaponType.isRanged:
+      attack += RangedAttack;
+      break;
+      case WeaponType.isMelee:
+      attack += MeleeAttack;
+      break;
+      case WeaponType.isDisarmed:
+      Debug.Log("Player is Disarmed.");
+      break;
+    }
   }
 
   private void ShowWeapon(){
-    Instantiate(weapon.weaponSprite, hand.position, hand.rotation);
+    
+    if (weaponPrefab != null)
+    {
+      Destroy(weaponPrefab);
+    }
+    else 
+    {
+      weaponPrefab = Instantiate(weapon.weaponPrefab, hand.position, hand.rotation);
+      weaponPrefab.transform.SetParent(hand.transform);  
+    }
   }
 
   public void SetTarget(Transform target){
@@ -97,50 +142,34 @@ public class PlayerMain : MonoBehaviour, ICharacter
   }
   #endregion 
 
-  #region unity_input_system
-  public void OnHandleAttack(InputAction.CallbackContext cbx){
-    if (cbx.performed){
-      Debug.Log("Attacking");
+  #region triggers
 
-      switch (weapon.weaponType){
-        case WeaponType.isRanged:
-        {
-          if (weapon is RangedWeapon ranged_weapon)
-          attack = StartCoroutine(AttackRanged(ranged_weapon));
-          break;
-        }
-        case WeaponType.isMelee:
-        {
-          if (weapon is MeleeWeapon melee_weapon)
-          attack = StartCoroutine(AttackMelee(melee_weapon));
-          break;
-        }
-        case WeaponType.isDisarmed:
-          Debug.Log("Player is Disarmed");
-          break;
-      }
-    } else if (attack != null) {
-      StopCoroutine(attack);
-    }
+  /// <summary>
+  /// This uses the new unity input system.
+  /// Use 'Invoke Unity Events' as the Player 
+  /// Input behavior and set the proper 
+  /// function for the CallbackContext.
+  /// </summary>
+
+  public void TriggerAttack(InputAction.CallbackContext cbx){
+    if (cbx.performed) { isAttacking = true; }
+    if (cbx.canceled) { isAttacking = false; }
   }
   
-  public void OnHandleInteract(InputAction.CallbackContext cbx){
+  public void TriggerInteract(InputAction.CallbackContext cbx){
     Debug.Log("Interacting");
   }
   
-  public void OnHandleUseItem(InputAction.CallbackContext cbx){
+  public void TriggerUseItem(InputAction.CallbackContext cbx){
     Debug.Log("Using Item");
   }
   #endregion
-  
-  #region coroutines
-  private IEnumerator AttackRanged(RangedWeapon weapon){
-    while (true){
-      Debug.Log("Pew!");
-    
-      HandleProjectile(weapon.projectilePrefab, weapon.projectileSpeed);
-      yield return new WaitForSeconds(weapon.attackRate);
-    }
+
+  #region attacks
+  private void RangedAttack(Weapon weapon){
+    RangedWeapon ranged = weapon as RangedWeapon;
+
+    HandleProjectile(ranged.projectilePrefab, ranged.projectileSpeed);
   }
   
   private void HandleProjectile(GameObject projectile, float speed){
@@ -148,13 +177,10 @@ public class PlayerMain : MonoBehaviour, ICharacter
     current_projectile.setup(target, speed);
   }
 
-  private IEnumerator AttackMelee(MeleeWeapon weapon){
-    while (true){
-      Debug.Log("Slash!");
-      yield return new WaitForSeconds(weapon.attackRate);
+  private void MeleeAttack(Weapon weapon){
+    MeleeWeapon melee = weapon as MeleeWeapon;
 
-      // 'melee weapon features' 
-    }
+
   }
   #endregion
 }

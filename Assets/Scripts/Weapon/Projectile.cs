@@ -16,10 +16,10 @@ public class Projectile : MonoBehaviour
   {
     GetComponent<Rigidbody2D>().velocity = transform.up * speed;
 
-    SafeDestroy();
+    DestroyAfterSeconds();
   }
 
-  private void SafeDestroy()
+  private void DestroyAfterSeconds()
   {
     Destroy(gameObject, 2f);
   }

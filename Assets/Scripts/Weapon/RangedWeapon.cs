@@ -7,20 +7,21 @@ public class RangedWeapon : Weapon
 {
   public override WeaponType weaponType => WeaponType.isRanged;
 
+  [Space]
   public float reloadTime;
   [Tooltip("Modifer for reload time based on certain conditions."), Min(0.5f)]
   public float reloadTimeMultiplier = 1.0f;
   public int maximumAmmo;
-  
+
+  [Space]
   [NotNull]
   public GameObject projectilePrefab;
-  
   [Min(1.0f)]
   public float projectileSpeed = 1.0f;
 
   [Space]
-
   [Header("Debugging")]
+  [ReadOnly]
   [field: SerializeField]
   private int currentAmmo;
 

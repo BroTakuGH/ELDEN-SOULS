@@ -5,6 +5,7 @@ public class MeleeWeapon : Weapon
 {
   public override WeaponType weaponType => WeaponType.isMelee;
 
+  [Space]
   [Tooltip("How far the push of the weapon.")]
   public float knockback;
 

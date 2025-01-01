@@ -214,9 +214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e35b114e1e3e5d40816a6b8cea133c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTag: 1
-  range: 2
-  attacker: {fileID: 5171871680359465062}
+  player: {fileID: 4987835923306617847}
+  range: 5.45
   target: {fileID: 0}
 --- !u!114 &5252841844598491385
 MonoBehaviour:
@@ -246,8 +245,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4987835923306617847}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnHandleAttack
+        m_TargetAssemblyTypeName: PlayerMain, Assembly-CSharp
+        m_MethodName: TriggerAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -296,7 +295,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5798426358188257100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.1, y: -33.4, z: 0}
+  m_LocalPosition: {x: 16.5, y: -27.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

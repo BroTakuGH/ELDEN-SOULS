@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: example ranged weapon
   description: example description
-  weaponSprite: {fileID: 0}
+  weaponPrefab: {fileID: 527290827152924555, guid: 97220bb0d8a69ee40941a8270f6c79c3, type: 3}
   damage: 5
   attackRate: 0.255
   reloadTime: 4
   reloadTimeMultiplier: 1
   maximumAmmo: 0
   projectilePrefab: {fileID: 832691282959625977, guid: 1b505338ea3bc544a9b68b3b0c043ce9, type: 3}
-  projectileSpeed: 10
+  projectileSpeed: 14.15
   currentAmmo: 0
