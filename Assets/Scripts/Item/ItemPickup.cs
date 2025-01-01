@@ -14,12 +14,12 @@ public class ItemPickup : MonoBehaviour
   
   private void OnTriggerEnter2D(Collider2D other){
     if (other.CompareTag("Player")){
-      PlayerController player = other.GetComponent<PlayerController>();
+      PlayerMain player = other.GetComponent<PlayerMain>();
       Pickup(player);
     }
   }
 
-  private void Pickup(PlayerController player){
+  private void Pickup(PlayerMain player){
     HandleVisualEffects();
     switch(item){
       case Weapon weapon:

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: new-melee-weapon
   m_EditorClassIdentifier: 
   name: example melee weapon
-  description: This is the description of the melee weapon
-  weapon: {fileID: 0}
+  description: examplel description
+  weaponPrefab: {fileID: 527290827152924555, guid: 2983a83f45ec31844b470ba97f1f41dc, type: 3}
   damage: 10
-  attackSpeed: 5
+  attackRate: 0
   knockback: 8

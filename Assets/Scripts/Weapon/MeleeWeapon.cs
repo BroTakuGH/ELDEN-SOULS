@@ -5,7 +5,8 @@ public class MeleeWeapon : Weapon
 {
   public override WeaponType weaponType => WeaponType.isMelee;
 
-  [Header("Melee Weapon Attribute")]
+  [Space]
+  [Tooltip("How far the push of the weapon.")]
   public float knockback;
 
   public override void PrintWeaponInfo()

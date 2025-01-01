@@ -60,7 +60,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""f9b7a0fd-0eb6-44ee-a6fb-d36013a2c597"",
                     ""path"": ""<Keyboard>/space"",
-                    ""interactions"": ""Press,Hold,Tap"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",

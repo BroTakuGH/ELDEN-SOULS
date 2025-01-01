@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new-ranged-weapon", menuName = "weapon/new-ranged-weapon", order = 1)]
@@ -5,18 +7,27 @@ public class RangedWeapon : Weapon
 {
   public override WeaponType weaponType => WeaponType.isRanged;
 
-  [Header("Ranged Weapon Attributes")]
+  [Space]
   public float reloadTime;
-  [Range(0.0f, 1.0f)]
-  public float reloadSpeed = 1f;
-  public float magazineSize;
-  
-  public GameObject projectile;
-  public float projectileSpeed;
+  [Tooltip("Modifer for reload time based on certain conditions."), Min(0.5f)]
+  public float reloadTimeMultiplier = 1.0f;
+  public int maximumAmmo;
+
+  [Space]
+  [NotNull]
+  public GameObject projectilePrefab;
+  [Min(1.0f)]
+  public float projectileSpeed = 1.0f;
+
+  [Space]
+  [Header("Debugging")]
+  [ReadOnly]
+  [field: SerializeField]
+  private int currentAmmo;
 
   public override void PrintWeaponInfo()
   {
     base.PrintWeaponInfo();
-    Debug.Log($"Reload Time: {reloadTime}, Reload Speed: {reloadSpeed}, Magazine Size: {magazineSize}");
+    Debug.Log($"Reload Time: {reloadTime}, Reload Speed: {reloadTimeMultiplier}, Magazine Size: {maximumAmmo}");
   }
 }

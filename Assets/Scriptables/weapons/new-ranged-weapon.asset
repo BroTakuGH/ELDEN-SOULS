@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: new-ranged-weapon
   m_EditorClassIdentifier: 
   name: example ranged weapon
-  description: This is the description of theranged weapon
-  weapon: {fileID: 0}
+  description: example description
+  weaponPrefab: {fileID: 527290827152924555, guid: 97220bb0d8a69ee40941a8270f6c79c3, type: 3}
   damage: 5
-  attackSpeed: 10
+  attackRate: 0.255
   reloadTime: 4
-  reloadSpeed: 1
-  magazineSize: 8
-  projectile: {fileID: 0}
-  projectileSpeed: 10
+  reloadTimeMultiplier: 1
+  maximumAmmo: 0
+  projectilePrefab: {fileID: 832691282959625977, guid: 1b505338ea3bc544a9b68b3b0c043ce9, type: 3}
+  projectileSpeed: 14.15
+  currentAmmo: 0
