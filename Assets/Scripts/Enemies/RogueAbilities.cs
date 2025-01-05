@@ -29,10 +29,6 @@ public class RogueAbilities : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		Debug.Log(canAttack + " Status");
-		//      if(playerHealth != null) { 
-		//Debug.Log(playerHealth.playerHealth);
-		//}
 		if (dashCoolDown >= 0) {
 			dashCoolDown -= Time.deltaTime;
         }
@@ -46,7 +42,7 @@ public class RogueAbilities : MonoBehaviour
         }
 
 		if (enemyChase != null) { 
-        if (enemyChase.distance <= 4 && dashCoolDown <= 0) {
+        if (enemyChase.GetDistance() <= 4 && dashCoolDown <= 0) {
                 dash();
                 timer += Time.deltaTime;
                 //check if the timer reached the waittime to change the speed back to default
@@ -78,11 +74,6 @@ public class RogueAbilities : MonoBehaviour
 		}
 	}
 
-	//void OnTriggerExit(Collider other) {
-	//	if (other.gameObject.name == "Player") {
-	//           Debug.Log("exited");
-	//	}
-	//}
 	void attack() {
 
 		if (playerHealth != null) {
