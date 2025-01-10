@@ -53,3 +53,6 @@ TagManager:
   - name: props
     uniqueID: 1620621711
     locked: 0
+  - name: Enemy Ability
+    uniqueID: 1221862891
+    locked: 0
